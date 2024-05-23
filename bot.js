@@ -27,9 +27,11 @@ client.on('ready', () => {
 // Comandos que recebem a mensagem e respondem de acordo
 client.on('message', async (message) => {
     console.log('Mensagem recebida: ', message.body);
-
-    // É possível citar a pessoa que enviou a mensagem
     const chat = await message.getChat();
+    // const contact = await chat.getContact();
+    // const profilePicUrl = await contact.getProfilePicUrl();
+    // console.log(profilePicUrl)
+    // É possível citar a pessoa que enviou a mensagem
     let user = await message.getContact();
 
     if (message.body.toLowerCase() === '!oi') {

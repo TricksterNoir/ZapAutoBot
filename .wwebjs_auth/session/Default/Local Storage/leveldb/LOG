@@ -1,3 +1,14 @@
-2024/05/20-15:42:07.114 1f4c Reusing MANIFEST C:\Users\user\Desktop\Projetos\Autozap\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
-2024/05/20-15:42:07.116 1f4c Recovering log #16
-2024/05/20-15:42:07.122 1f4c Reusing old log C:\Users\user\Desktop\Projetos\Autozap\.wwebjs_auth\session\Default\Local Storage\leveldb/000016.log 
+2024/05/21-13:26:05.630 29bc Reusing MANIFEST C:\Users\user\Desktop\Projetos\Autozap\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2024/05/21-13:26:05.633 29bc Recovering log #16
+2024/05/21-13:26:05.634 29bc Level-0 table #19: started
+2024/05/21-13:26:05.651 29bc Level-0 table #19: 14697 bytes OK
+2024/05/21-13:26:05.662 29bc Delete type=0 #16
+2024/05/21-13:26:05.664 37b8 Compacting 4@0 + 1@1 files
+2024/05/21-13:26:05.684 37b8 Generated table #21@0: 15 keys, 10006 bytes
+2024/05/21-13:26:05.684 37b8 Compacted 4@0 + 1@1 files => 10006 bytes
+2024/05/21-13:26:05.698 37b8 compacted to: files[ 0 1 1 0 0 0 0 ]
+2024/05/21-13:26:05.700 37b8 Delete type=2 #8
+2024/05/21-13:26:05.702 37b8 Delete type=2 #11
+2024/05/21-13:26:05.702 37b8 Delete type=2 #13
+2024/05/21-13:26:05.704 37b8 Delete type=2 #17
+2024/05/21-13:26:05.704 37b8 Delete type=2 #19

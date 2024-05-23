@@ -1,3 +1,7 @@
+const { fileURLToPath } = require('url');
+const path = require('path');
+const fs = require('fs');
+
 const fs = require('fs').promises;
 
 function sortearDezenas(){
@@ -40,7 +44,25 @@ async function sortearJogoDoBicho() {
     return numero_completo;
 }
 
+function criaJsonAtendimento() {
+    const arquivo = path.join(__dirname,'atendimento.json');
 
+    if (!fs.existsSync(arquivo)){
+        const atendimentos = {
+            idChat: '',
+            horaAtendimento: '',
+            comandosUsados: [],
+        }
 
+        jsonDados = JSON.stringify(atendimentos, null, 2);
+        caminhoJson = 'atendimento.json';
+        fs.writeFile(caminhoJson, jsonDados);
+    }
+}
+
+function verificaChatAtendimento(){
+    criaJsonAtendimento()
+    
+}
 
 module.exports = { sortearDezenas, sortearJogoDoBicho };
