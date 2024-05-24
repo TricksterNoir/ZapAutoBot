@@ -1,5 +1,5 @@
 // Importa as funções que serão utilizadas
-const { sortearDezenas, sortearJogoDoBicho } = require('./functions');
+const { sortMegaSena, sortJogoDoBicho } = require('./functions');
 
 // Declara e usa as ferramentas
 const { Client, MessageMedia, LocalAuth } = require('whatsapp-web.js');
@@ -61,23 +61,23 @@ client.on('message', async (message) => {
     }
 
     if (message.body.toLowerCase() === '!preco') {
-        const listaPrecos = `Abaixo segue a lista de preços do nosso serviço:\n
+        const priceList = `Abaixo segue a lista de preços do nosso serviço:\n
         Landing Page de vendas: R$1000.00\n
         Landing Page de captura: R$ 850.00\n
         Landing Page de obrigado: R$400.00\n
         Marketing Digital: R$1000.00`;
-        await client.sendMessage(message.from, listaPrecos);
+        await client.sendMessage(message.from, priceList);
         await client.sendMessage(message.from, 'Algum dos nossos serviços se enquadra na sua demanda?');
     }
 
     if (message.body.toLowerCase() === '!megasena') {
-        var sorteio = sortearDezenas();
-        await client.sendMessage(message.from, 'Seu palpite da Mega Sena é: ' + sorteio.join(', '));
+        var sortDone = sortMegaSena();
+        await client.sendMessage(message.from, 'Seu palpite da Mega Sena é: ' + sortDone.join(', '));
     }
 
     if (message.body.toLowerCase() === '!bicho') {
-        var resposta = await sortearJogoDoBicho();
-        await client.sendMessage(message.from, 'Seu palpite para o jogo do bicho é:\n ' + resposta);
+        var responseSorted = await sortJogoDoBicho();
+        await client.sendMessage(message.from, 'Seu palpite para o jogo do bicho é:\n ' + responseSorted);
     }
 
 });

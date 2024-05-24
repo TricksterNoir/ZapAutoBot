@@ -4,65 +4,65 @@ const fs = require('fs');
 
 const fs = require('fs').promises;
 
-function sortearDezenas(){
-    var listaSorteada = [];
+function sortMegaSena(){
+    var sortedList = [];
     var i = 0;
     while (i < 6){
-        var numeroSorteado = Math.floor(Math.random() * 60) + 1;
-        var numeroFormatado = numeroSorteado.toString().padStart(2, '0');
-        if (!listaSorteada.includes(numeroFormatado)){
-            listaSorteada.push(numeroFormatado);
+        var sortedNumber = Math.floor(Math.random() * 60) + 1;
+        var formatedNumber = sortedNumber.toString().padStart(2, '0');
+        if (!sortedNumber.includes(formatedNumber)){
+            sortedList.push(formatedNumber);
             i++
         }
     }
-    return listaSorteada
+    return sortedList
 
 }
 
-async function sortearJogoDoBicho() {
-    let numero_completo = '';
+async function sortJogoDoBicho() {
+    let completeNumber = '';
 
     for (let i = 0; i < 5; i++) {
-        const grupo_animal_sorteado_cabeca = Math.floor(Math.random() * 25) + 1;
-        const grupo_animal_sorteado_animal = Math.floor(Math.random() * 25) + 1;
-        let grupo_posicao_numero = Math.floor(Math.random() * 4);
+        const numberGroupAnimalHead = Math.floor(Math.random() * 25) + 1;
+        const numberGroupAnimalTail = Math.floor(Math.random() * 25) + 1;
+        let groupPositionNumber = Math.floor(Math.random() * 4);
 
         const data = JSON.parse(await fs.readFile('animal.json', 'utf-8'));
 
-        let animal_selecionado = data.animais.find(animal => animal.numero_grupo === grupo_animal_sorteado_cabeca);
-        const numero_cabeca = animal_selecionado.numeros_animal[grupo_posicao_numero];
+        let animalSelected = data.animais.find(animal => animal.groupNumber === numberGroupAnimalHead);
+        const numberHead = animalSelected.animalNumber[groupPositionNumber];
 
-        grupo_posicao_numero = Math.floor(Math.random() * 4);
-        animal_selecionado = data.animais.find(animal => animal.numero_grupo === grupo_animal_sorteado_animal);
-        const numero_animal = animal_selecionado.numeros_animal[grupo_posicao_numero];
-        const numero_grupo = animal_selecionado.numero_grupo;
-        const animal_nome = animal_selecionado.animal;
+        groupPositionNumber = Math.floor(Math.random() * 4);
+        animalSelected = data.animais.find(animal => animal.groupNumber === numberGroupAnimalTail);
+        const numberAnimalSelected = animalSelected.animalNumber[groupPositionNumber];
+        const numberGroupAnimalSelected = animalSelected.groupNumber;
+        const animal_nome = animalSelected.animal;
 
-        numero_completo += `${i + 1}º ${numero_cabeca}${numero_animal} (${numero_grupo}) ${animal_nome}\n`;
+        completeNumber += `${i + 1}º ${numberHead}${numberAnimalSelected} (${numberGroupAnimalSelected}) ${animal_nome}\n`;
     }
 
-    return numero_completo;
+    return completeNumber;
 }
 
-function criaJsonAtendimento() {
-    const arquivo = path.join(__dirname,'atendimento.json');
+function createChatService() {
+    const arquivo = path.join(__dirname,'chatInfo.json');
 
     if (!fs.existsSync(arquivo)){
-        const atendimentos = {
+        const chatOpen = {
             idChat: '',
-            horaAtendimento: '',
-            comandosUsados: [],
+            hourLastMsg: '',
+            commandsUsed: [],
         }
 
-        jsonDados = JSON.stringify(atendimentos, null, 2);
-        caminhoJson = 'atendimento.json';
-        fs.writeFile(caminhoJson, jsonDados);
+        jsonData = JSON.stringify(chatOpen, null, 2);
+        pathJson = 'chatInfo.json';
+        fs.writeFile(pathJson, jsonData);
     }
 }
 
-function verificaChatAtendimento(){
-    criaJsonAtendimento()
+function verifyChatService(){
+    createChatService()
     
 }
 
-module.exports = { sortearDezenas, sortearJogoDoBicho };
+module.exports = { sortMegaSena, sortJogoDoBicho: sortJogoDoBicho };
