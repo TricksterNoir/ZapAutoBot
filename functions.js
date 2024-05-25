@@ -29,11 +29,11 @@ async function sortJogoDoBicho() {
 
         const data = JSON.parse(await fs.readFile('animal.json', 'utf-8'));
 
-        let animalSelected = data.animais.find(animal => animal.groupNumber === numberGroupAnimalHead);
+        let animalSelected = data.animals.find(animal => animal.groupNumber === numberGroupAnimalHead);
         const numberHead = animalSelected.animalNumber[groupPositionNumber];
 
         groupPositionNumber = Math.floor(Math.random() * 4);
-        animalSelected = data.animais.find(animal => animal.groupNumber === numberGroupAnimalTail);
+        animalSelected = data.animals.find(animal => animal.groupNumber === numberGroupAnimalTail);
         const numberAnimalSelected = animalSelected.animalNumber[groupPositionNumber];
         const numberGroupAnimalSelected = animalSelected.groupNumber;
         const animal_nome = animalSelected.animal;
@@ -45,14 +45,18 @@ async function sortJogoDoBicho() {
 }
 
 function createChatService() {
-    const arquivo = path.join(__dirname,'chatInfo.json');
+    const archive = path.join(__dirname,'chatInfo.json');
 
-    if (!fs.existsSync(arquivo)){
+    if (!fs.existsSync(archive)){
         const chatOpen = {
-            idChat: '',
-            hourLastMsg: '',
-            commandsUsed: [],
-        }
+            "clients": [
+                {
+                    'idChat': '',
+                    'hourLastMsg': '',
+                    'commandsUsed': []
+                }
+            ]
+        };
 
         jsonData = JSON.stringify(chatOpen, null, 2);
         pathJson = 'chatInfo.json';
@@ -60,9 +64,58 @@ function createChatService() {
     }
 }
 
-function verifyChatService(){
-    createChatService()
+function getHourNow(){
+    const now = new Date();
+
+    const hours = now.getHours()
+    const minutes = now.getMinutes()
+    const seconds = now.getSeconds()
+    const totalMinutes = hours * 60 + minutes + seconds / 60
     
+    return totalMinutes
+}
+
+async function verifySection(idChat, hourNow, commandUsed){
+    const jsonData = await fs.readFile('chatInfo.json', 'utf-8');
+    const jsonClient = JSON.parse(jsonData);
+    const clientOnLineIndex = jsonClient.clients.findIndex(person => person.idChat === idChat);
+    
+    if (clientOnLineIndex !== -1){
+        const clientOnLine = jsonClient.clients[clientOnLineIndex];
+
+        if (clientOnLine.clients.commandsUsed.includes(commandUsed)){
+            if((clientOnLine.hourLastMsg - hourNow) > 10){
+
+                jsonClient.clients[clientOnLine].commandsUsed = [commandUsed]
+                jsonClient.clients[clientOnLine].hourLastMsg = hourNow
+                await fs.writeFile('chatInfo.json', JSON.stringify(jsonClient, null, 2));
+
+                return commandUsed
+            } else{
+                return 'Comando já usado nos ultimos 10 minutos, por favor tente outro comando.'
+            }
+        }
+    }
+}
+function verifyChatService(idPerson, hourMsg, commandUsed){
+    createChatService()
+    fs.readFile('./chatInfo.json', 'utf8',(data))
+    const jsonPersons = JSON.parse(data)
+    const hourNow = getHourNow()
+
+    if (!jsonPersons.clients.some(client => client.idChat === idPerson)) {
+        const newData = {
+            'idChat': idPerson,
+            'hourLastMsg': hourMsg,
+            'commandsUsed': commandUsed
+        }
+
+        jsonPersons.push(newData)
+        return commandUsed
+
+    } else {
+        return verifySection(idPerson, hourNow, commandUsed)
+    }
 }
 
 module.exports = { sortMegaSena, sortJogoDoBicho: sortJogoDoBicho };

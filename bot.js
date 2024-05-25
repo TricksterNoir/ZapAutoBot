@@ -1,11 +1,9 @@
-// Importa as funções que serão utilizadas
+// Import all the functions that will be used
 const { sortMegaSena, sortJogoDoBicho } = require('./functions');
-
-// Declara e usa as ferramentas
 const { Client, MessageMedia, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
-// Cria o client local
+// Create the local client
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
@@ -14,7 +12,7 @@ const client = new Client({
     }
 });
 
-// Gera o QRCode para login no whatsapp
+// Generate the QrCode
 client.on('qr', (qr) => {
     console.log('QR Code recebido, escaneie-o com seu telefone:');
     qrcode.generate(qr, { small: true });
@@ -24,16 +22,16 @@ client.on('ready', () => {
     console.log('Cliente pronto!');
 });
 
-// Comandos que recebem a mensagem e respondem de acordo
+// Recevie the message and check witch command contains
 client.on('message', async (message) => {
     console.log('Mensagem recebida: ', message.body);
     const chat = await message.getChat();
     // const contact = await chat.getContact();
     // const profilePicUrl = await contact.getProfilePicUrl();
     // console.log(profilePicUrl)
-    // É possível citar a pessoa que enviou a mensagem
-    let user = await message.getContact();
 
+    // You can mention the person who sent you a message
+    let user = await message.getContact();
     if (message.body.toLowerCase() === '!oi') {
         await chat.sendMessage(`Olá @${user.id.user}!`, { mentions: [user] });
     }
